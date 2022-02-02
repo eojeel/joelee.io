@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .wrapper {
     background: #f4f2eb;
     background-color: #afc7c5;
