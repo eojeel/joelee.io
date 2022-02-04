@@ -18,11 +18,6 @@ Route::get('/', function () {
 });
 
 Route::get('robots.txt', function () {
-    $lines = [
-        'User-agent: *',
-        'Disallow:'
-    ];
 
-    $content = implode(PHP_EOL, $lines);
-    return response($content, 200, ['Content-Type' => 'text/plain']);
+    return response(implode(PHP_EOL, ['User-agent: *','Disallow:']), 200, ['Content-Type' => 'text/plain']);
 });
