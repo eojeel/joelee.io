@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('robots.txt', function () {
+    $lines = [
+        'User-agent: *',
+        'Disallow:'
+    ];
+
+    $content = implode(PHP_EOL, $lines);
+    return response($content, 200, ['Content-Type' => 'text/plain']);
+});
