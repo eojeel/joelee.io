@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/wordle', function () {
+    return view('wordle');
+});
+
 Route::get('robots.txt', function () {
 
     return response(implode(PHP_EOL, ['User-agent: *','Disallow:']), 200, ['Content-Type' => 'text/plain']);

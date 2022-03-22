@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    height:100%
+}
+
 .wrapper {
     background: #f4f2eb;
     background-color: #afc7c5;
@@ -228,9 +232,6 @@
 .grill__hole--right {
     left: 2.59em;
 }
-
-
-
 
 /* ==========================================
    Windshield
@@ -1252,3 +1253,32 @@
 .bus-blinker-circle--2:after {
     border-radius: 0 40%;
 }
+
+/* ==========================================
+   Wordle
+   ========================================== */
+
+
+
+   .wordlebody{
+       display: grid;
+       place-items: center;
+       background-color: #333;
+       color: white;
+       font-family: sans-serif;
+   }
+
+   #game {
+       display:grid;
+       grid-template-columns: repeat(3, 1fr);
+   }
+
+   .tile {
+       width:100px;
+       height:100px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       outline: 1px solid currentColor;
+       font-size: 2rem;
+   }
