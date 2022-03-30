@@ -1,27 +1,43 @@
-import Tile from './tile';
+import { times } from 'lodash';
+import Tile from './Tile';
 
 export default
     {
         guessesAllowed: 3,
-        wordLenght: 3,
-        word: 'cat',
+        word: 'perks',
         currentRowIndex: 0,
+        stage: 'active',
+        message: '',
 
         get currentGuess() {
-            this.currentRow.map(tile => tile.letter).join('');
+            return this.currentRow.map((tile) => tile.letter).join("");
+        },
+
+        get currentRow() {
+            return this.board[this.currentRowIndex];
+        },
+
+        get remainingGuesses() {
+            return this.guessesAllowed - this.currentRowIndex - 1;
         },
 
         init() {
             this.board = Array.from({ length: this.guessesAllowed }, () => {
-                return Array.from({ length: this.wordLenght }, () => new Tile);
+                return Array.from(
+                    { length: this.word.length },
+                    (item, index) => new Tile(index)
+                );
             });
         },
 
         onKeyPress(key) {
+            this.message = '';
             if (/^[/[A-z]$/.test(key)) {
                 this.fillTile(key);
-            } else if (key == 'Enter') {
+            } else if (key === 'Enter') {
                 this.submitGuess();
+            } else if (key == 'Backspace') {
+                this.emptyTile();
             }
         },
 
@@ -29,27 +45,45 @@ export default
             for (let tile of this.currentRow) {
                 if (!tile.letter) {
                     tile.fill(key);
+
+                    break;
+                }
+            }
+        },
+
+        emptyTile() {
+            for (let tile of [...this.currentRow].reverse()) {
+                if (tile.letter) {
+                    tile.empty();
+
                     break;
                 }
             }
         },
 
         submitGuess() {
-            let guess = this.currentGuess;
-
-            if(guess.length < this.wordLenght) {
+            if (this.currentGuess.length < this.word.length) {
                 return;
             }
 
-           if(guess === this.word) {
-               alert('you Win');
-           } else {
-               alert('nope');
-               this.currentRowIndex++;
-           }
-        },
+            for (let tile of this.currentRow) {
+                tile.updateStatus(this.currentGuess, this.word);
+            }
 
-        get currentRow() {
-            return this.board[this.currentRowIndex];
+            if (this.currentGuess === this.word) {
+                this.state = 'complete';
+
+                return this.message = 'You win!';
+            }
+
+            if (this.remainingGuesses == 0) {
+                this.state = 'complete';
+
+                return this.message = 'Game Over, You Lose.';
+
+            }
+            this.currentRowIndex++;
+
+            return this.message = 'Incorrect';
         },
     };
