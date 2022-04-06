@@ -1,13 +1,19 @@
-import { times } from 'lodash';
+import { takeWhile, times } from 'lodash';
 import Tile from './Tile';
 
 export default
     {
         guessesAllowed: 3,
-        word: 'perks',
+        word: 'wakefield',
         currentRowIndex: 0,
         stage: 'active',
         message: '',
+
+        letters: [
+            'QWERTYUIOP'.split(''),
+            'ASDFGHJKL'.split(''),
+            ['Enter', ...'ZXCVBNM'.split(''), 'Backspace'],
+        ],
 
         get currentGuess() {
             return this.currentRow.map((tile) => tile.letter).join("");
@@ -66,9 +72,11 @@ export default
                 return;
             }
 
-            for (let tile of this.currentRow) {
-                tile.updateStatus(this.currentGuess, this.word);
-            }
+           for(let tile of this.currentRow) {
+               tile.updateStatus(this.word);
+           }
+
+           Tile.updateStatusForRow(this.currentRow, this.word);
 
             if (this.currentGuess === this.word) {
                 this.state = 'complete';

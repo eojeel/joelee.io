@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>JoeLee.io Wordle</title>
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
@@ -26,6 +26,18 @@
                 </div>
             </template>
         </div>
+
+        <!---
+        <div id="keyboard">
+            <template x-for="row in letters">
+                <div class="row">
+                    <template x-for="key in row">
+                        <button type="button" x-text="key" @click="alert('you clicked ' + $event.target.textContent)"></button>
+                    </template>
+                </div>
+            </template>
+        </div>
+        -->
 
         <output x-text="message"></output>
     </main>
