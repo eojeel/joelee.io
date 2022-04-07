@@ -1966,10 +1966,8 @@ output:empty {
  */
 
 #keyboard {
-    margin-top: 2rem;
     width: 94vw;
     max-width: 600px;
-    margin: 0 auto;
 }
 
 #keyboard .row > div {
@@ -1989,7 +1987,6 @@ output:empty {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 2px;
 }
 
 .key:active {
@@ -2042,3 +2039,4 @@ output:empty {
     align-items: center;
   }
 }
+
