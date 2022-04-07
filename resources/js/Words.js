@@ -8,4 +8,6 @@ export let Words = [
 "mellor",
 "meds",
 "anal",
+'fisting',
+'dwarf',
 ];

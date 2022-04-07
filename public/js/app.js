@@ -2182,7 +2182,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Words": () => (/* binding */ Words)
 /* harmony export */ });
-var Words = ["shagger", "perks", "craig", "nonce", "sadge", "danny", "mellor", "meds", "anal"];
+var Words = ["shagger", "perks", "craig", "nonce", "sadge", "danny", "mellor", "meds", "anal", 'fisting', 'dwarf'];
 
 /***/ }),
 
