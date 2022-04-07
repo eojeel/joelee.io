@@ -1,10 +1,11 @@
 import { takeWhile, times } from 'lodash';
 import Tile from './Tile';
+import {Words} from "./Words";
 
 export default
     {
-        guessesAllowed: 3,
-        word: 'wakefield',
+        guessesAllowed: 5,
+        word: Words[Math.floor(Math.random() * Words.length)],
         currentRowIndex: 0,
         stage: 'active',
         message: '',
@@ -73,25 +74,32 @@ export default
             }
 
            for(let tile of this.currentRow) {
-               tile.updateStatus(this.word);
+            Tile.updateStatusForRow(this.currentRow, this.word);
            }
 
-           Tile.updateStatusForRow(this.currentRow, this.word);
+
 
             if (this.currentGuess === this.word) {
                 this.state = 'complete';
-
-                return this.message = 'You win!';
+                this.message = 'You win!';
+                return;
             }
 
             if (this.remainingGuesses == 0) {
                 this.state = 'complete';
-
-                return this.message = 'Game Over, You Lose.';
-
+                this.message = 'Game Over, You Lose. (' + this.word + ')';
+                return;
             }
-            this.currentRowIndex++;
 
-            return this.message = 'Incorrect';
+            this.currentRowIndex++;
+            this.message = 'Incorrect';
+            return;
         },
+
+        matchingTileForKey(key) {
+            return this.board.flat()
+            .filter((tile) => tile.status)
+            .sort((t1, t2) => {t2.status == 'correct';})
+            .find((tile) => tile.letter === key.toLowerCase());
+        }
     };

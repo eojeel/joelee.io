@@ -2095,19 +2095,6 @@ var Tile = /*#__PURE__*/function () {
   }
 
   _createClass(Tile, [{
-    key: "updateStatus",
-    value: function updateStatus(word) {
-      if (!word.includes(this.letter)) {
-        return this.status = 'absent';
-      }
-
-      if (this.letter === word[this.position]) {
-        return this.status = 'correct';
-      }
-
-      this.status = 'present';
-    }
-  }, {
     key: "fill",
     value: function fill(key) {
       this.letter = key.toLowerCase();
@@ -2120,13 +2107,19 @@ var Tile = /*#__PURE__*/function () {
   }], [{
     key: "updateStatusForRow",
     value: function updateStatusForRow(row, word) {
+      word = word.split('');
+
       var _iterator = _createForOfIteratorHelper(row),
           _step;
 
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var tile = _step.value;
-          tile.updateStatus(word);
+
+          if (word[tile.position] == tile.letter) {
+            tile.status = 'correct';
+            word[tile.position] = null;
+          }
         }
       } catch (err) {
         _iterator.e(err);
@@ -2134,13 +2127,40 @@ var Tile = /*#__PURE__*/function () {
         _iterator.f();
       }
 
-      row.filter(function (tile) {
-        return tile.status == 'present' && row.some(function (t) {
-          return t.letter === tile.letter && t.status == 'correct';
-        });
-      }).forEach(function (tile) {
-        return tile.status = 'absent';
-      });
+      var _iterator2 = _createForOfIteratorHelper(row),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var _tile = _step2.value;
+
+          if (word.includes(_tile.leter)) {
+            _tile.status = 'present';
+            word[word.indexOf(_tile.letter)] = null;
+          }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      var _iterator3 = _createForOfIteratorHelper(row),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _tile2 = _step3.value;
+
+          if (!_tile2.letter) {
+            _tile2.status = 'absent';
+          }
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
     }
   }]);
 
@@ -2148,6 +2168,21 @@ var Tile = /*#__PURE__*/function () {
 }();
 
 
+
+/***/ }),
+
+/***/ "./resources/js/Words.js":
+/*!*******************************!*\
+  !*** ./resources/js/Words.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Words": () => (/* binding */ Words)
+/* harmony export */ });
+var Words = ["shagger", "perks", "craig", "nonce", "sadge", "danny", "mellor", "meds", "anal"];
 
 /***/ }),
 
@@ -2249,6 +2284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Tile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Tile */ "./resources/js/Tile.js");
+/* harmony import */ var _Words__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Words */ "./resources/js/Words.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -2265,9 +2301,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  guessesAllowed: 3,
-  word: 'wakefield',
+  guessesAllowed: 5,
+  word: _Words__WEBPACK_IMPORTED_MODULE_2__.Words[Math.floor(Math.random() * _Words__WEBPACK_IMPORTED_MODULE_2__.Words.length)],
   currentRowIndex: 0,
   stage: 'active',
   message: '',
@@ -2360,7 +2397,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     try {
       for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
         var tile = _step3.value;
-        tile.updateStatus(this.word);
+        _Tile__WEBPACK_IMPORTED_MODULE_1__["default"].updateStatusForRow(this.currentRow, this.word);
       }
     } catch (err) {
       _iterator3.e(err);
@@ -2368,20 +2405,30 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       _iterator3.f();
     }
 
-    _Tile__WEBPACK_IMPORTED_MODULE_1__["default"].updateStatusForRow(this.currentRow, this.word);
-
     if (this.currentGuess === this.word) {
       this.state = 'complete';
-      return this.message = 'You win!';
+      this.message = 'You win!';
+      return;
     }
 
     if (this.remainingGuesses == 0) {
       this.state = 'complete';
-      return this.message = 'Game Over, You Lose.';
+      this.message = 'Game Over, You Lose. (' + this.word + ')';
+      return;
     }
 
     this.currentRowIndex++;
-    return this.message = 'Incorrect';
+    this.message = 'Incorrect';
+    return;
+  },
+  matchingTileForKey: function matchingTileForKey(key) {
+    return this.board.flat().filter(function (tile) {
+      return tile.status;
+    }).sort(function (t1, t2) {
+      t2.status == 'correct';
+    }).find(function (tile) {
+      return tile.letter === key.toLowerCase();
+    });
   }
 });
 
