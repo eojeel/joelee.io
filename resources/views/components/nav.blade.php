@@ -13,6 +13,7 @@
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
         <a class="text-white" href="/wordle">Wordle</a>
+        <a class="text-white" href="/cards">Snap</a>
         </div>
     </div>
 </nav>

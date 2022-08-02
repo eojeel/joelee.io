@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" integrity="sha512-P0Ms+SM3w8aSbPa5U/nFoprxlUzG2FSz9h/A+2xhhE1hcH6RmGYK3dImFCvcSYuioM3UbbAtMbAopAuHLr94pA==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,59 +15,56 @@
             <span class="text-xs">pts</span>
         </h1>
         <div class="flex-1 grid grid-cols-4 gap-10">
-            <template x-for="card in cards">
+        <template x-for="(card, index) in cards" :key="index">
                 <div>
-                    <button :style="'background: ' + (card.flipped ? card.color : '#999')" class="w-full h-32" @click="flipCard(card)">
+                    <button x-show="! card.cleared"
+                            :style="'background: ' + (card.flipped ? card.color : '#999')"
+                            :disabled="flippedCards.length >= 2"
+                            class="w-full h-32"
+                            @click="flipCard(card)"
+                    >
                     </button>
                 </div>
             </template>
         </div>
+
+        <div x-data="{ show: true, message: 'hello'}"
+        x-show.transition.opacity="show"
+        x-text="message"
+        @flash.window="
+        message = $event.detail.message;
+         show = true;
+         setTimeout(() => show = false, 1000)
+         "
+        class="fixed bottom-0 right-0 bg-green-500 text-white p-2 mb-4 mr-4 rounded"
+        >
+        </div>
     </div>
 
     <script>
+        function pause(milliseconds = 1000) {
+            return new Promise(resolve => setTimeout(resolve, milliseconds));
+        }
+
+        function flash(message) {
+            window.dispatchEvent(new CustomEvent('flash', {
+                detail: { message }
+            }));
+        }
+
         function game() {
             return {
-                cards: [{
-                        color: 'green',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'red',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'blue',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'yellow',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'green',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'red',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'blue',
-                        flipped: false,
-                        cleared: false
-                    },
-                    {
-                        color: 'yellow',
-                        flipped: false,
-                        cleared: false
-                    }
-                ],
+                cards: [
+                    { color: 'green', flipped: false, cleared: false },
+                    { color: 'red', flipped: false, cleared: false },
+                    { color: 'blue', flipped: false, cleared: false },
+                    { color: 'yellow', flipped: false, cleared: false },
+                    { color: 'green', flipped: false, cleared: false },
+                    { color: 'red', flipped: false, cleared: false },
+                    { color: 'blue', flipped: false, cleared: false },
+                    { color: 'yellow', flipped: false, cleared: false },
+                    ].sort(() => Math.random() - .5),
+
 
                 get flippedCards() {
                     return this.cards.filter(card => card.flipped);
@@ -78,24 +75,31 @@
                 },
 
                 get remainingCards() {
-                    return this.cards.filter(card => ! card.cleared);
+                    return this.cards.filter(card => !card.cleared);
                 },
 
                 get points() {
                     return this.clearedCards.length;
                 },
 
-                flipCard(card) {
-                    card.flipped = ! card.flipped;
 
-                    if (this.flippedCards.length == 2) {
+                async flipCard(card) {
+                    card.flipped = !card.flipped;
+
+                    if (this.flippedCards.length === 2) {
                         if (this.hasMatch()) {
+                            flash('You Found A Pair!');
+                            await pause();
+
                             this.flippedCards.forEach(card => card.cleared = true);
 
-                            if(! this.remainingCards.length) {
+                            if (!this.remainingCards.length) {
                                 alert("You Won");
                             }
                         }
+
+                        this.flippedCards.forEach(card => card.flipped = false)
+
                     }
                 },
 
