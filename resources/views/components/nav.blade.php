@@ -12,8 +12,12 @@
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
-        <a class="text-white" href="/wordle">Wordle</a>
-        <a class="text-white" href="/cards">Snap</a>
+        <a class="text-white" href="/wordle">Wordle</a> |
+        <a class="text-white" href="/cards">Snap Game</a> |
+        <a class="text-white" href="https://www.linkedin.com/in/eojeel/" target="_blank">LinkedIn</a> |
+        <a class="text-white" href="https://twitter.com/eojeel" target="_blank">Twitter</a> |
+        <a class="text-white" href="https://github.com/eojeel" target="_blank">GitHub</a>
+
         </div>
     </div>
 </nav>
