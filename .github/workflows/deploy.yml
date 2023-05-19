@@ -1,0 +1,29 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v1'
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        deliverables: app.yaml
+
+    # Example of using the output
+    - id: 'test'
+      run: 'curl "${{ steps.deploy.outputs.url }}"'
