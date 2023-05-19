@@ -20,7 +20,7 @@ jobs:
         tools: composer:v2
 
     - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist --no-progress --no-dev
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
