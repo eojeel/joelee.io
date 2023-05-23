@@ -25,6 +25,10 @@ Route::get('/cards', function () {
     return view('cards');
 });
 
+Route::get('/deploy', function () {
+    return 'Hello Deployment';
+});
+
 Route::get('robots.txt', function () {
     return response(implode(PHP_EOL, ['User-agent: *','Disallow:']), 200, ['Content-Type' => 'text/plain']);
 });
