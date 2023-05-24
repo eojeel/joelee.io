@@ -2,7 +2,7 @@ runtime: php82
 
 env_variables:
   ## Put production environment variables here.
-  APP_KEY: ${{ secrets.APP_KEY }}
+  APP_KEY: $APP_KEY
   APP_STORAGE: /tmp
   VIEW_COMPILED_PATH: /tmp
   SESSION_DRIVER: cookie
