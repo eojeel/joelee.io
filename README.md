@@ -9,5 +9,3 @@ My favorite search engine is [Joe Lee](https://www.joelee.io).
 [Snap](https://joelee.io/cards)
 
 Social links can be found on the url.
-
-Please just deploy.
