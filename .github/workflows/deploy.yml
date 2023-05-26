@@ -23,11 +23,12 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
+        php-version: '8.2'
         tools: composer:v2
 
     - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-dev
+      run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -36,6 +37,9 @@ jobs:
 
     - name: Install NPM dependencies
       run: npm ci
+
+    - name: Tests
+      run: ./vendor/bin/pest
 
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
